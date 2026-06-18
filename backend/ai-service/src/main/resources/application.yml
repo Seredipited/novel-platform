@@ -1,0 +1,16 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: ai-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:18848
+
+# 通义千问 API 配置（去阿里云百炼平台获取: https://bailian.console.aliyun.com/）
+ai:
+  dashscope:
+    api-key: sk-ws-H.RPDHPIH.Cis6.MEUCIQDfwmGxcKy986LClmzhH6-kQQBbt7Mpn8woEaws0IyEOQIgd_omD1SF_FMCH2Tv2G5L8q5_VMBdUDpa9iq1JXYdZIg
+    model: qwen-flash

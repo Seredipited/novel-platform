@@ -1,0 +1,23 @@
+{
+  "name": "novel-platform-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0",
+    "pinia": "^2.1.0",
+    "element-plus": "^2.5.0",
+    "axios": "^1.6.0",
+    "@element-plus/icons-vue": "^2.3.0"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.0",
+    "@vue/compiler-sfc": "^3.4.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.0"
+  }
+}

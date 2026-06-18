@@ -1,0 +1,41 @@
+﻿server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:18848
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        - id: novel-service
+          uri: lb://novel-service
+          predicates:
+            - Path=/api/novel/**
+          filters:
+            - StripPrefix=1
+        - id: chapter-service
+          uri: lb://chapter-service
+          predicates:
+            - Path=/api/chapter/**
+          filters:
+            - StripPrefix=1
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/ai/**
+          filters:
+            - StripPrefix=1
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin
+      httpclient:
+        connect-timeout: 5000
+        response-timeout: 120s

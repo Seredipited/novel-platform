@@ -1,0 +1,22 @@
+﻿server:
+  port: 8082
+
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: novel-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/novel_platform?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 112233
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:18848
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
