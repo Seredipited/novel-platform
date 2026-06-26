@@ -21,8 +21,12 @@ export const useUserStore = defineStore("user", () => {
 
   const fetchProfile = async () => {
     if (isLoggedIn()) {
-      const res = await getProfile();
-      user.value = res.data;
+      try {
+        const res = await getProfile();
+        user.value = res.data;
+      } catch {
+        // 已通过拦截器显示错误提示，此处静默处理避免 Uncaught runtime error
+      }
     }
   };
 

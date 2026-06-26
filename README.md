@@ -156,7 +156,7 @@
 ### 1️⃣ 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/novel-platform.git
+git clone https://github.com/Seredipited/novel-platform.git
 cd novel-platform
 ```
 
