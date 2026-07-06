@@ -418,16 +418,47 @@ novel-platform/
 
 ## 🎨 界面预览
 
-| 页面 | 路由 | 说明 |
-|------|------|------|
-| 🏠 首页 | `/` | 轮播广告 + 分类标签 + 小说网格 + 分页 |
-| 🔑 登录/注册 | `/login` `/register` | 居中卡片式表单，粘土风格 |
-| 📖 小说详情 | `/novel/:id` | 封面信息 + AI 构思入口 + 章节管理 + 发布表单 |
-| 📑 章节阅读 | `/novel/:id/chapter/:chapterId` | 沉浸式阅读，上下章导航，宽度优化 |
-| ✍️ 发布小说 | `/publish` | 小说信息表单 (书名/分类/简介/封面) |
-| 👤 用户中心 | `/user` | 个人资料编辑 + 我发布的小说列表 |
+<p align="center">
+  <img src="docs/images/image.74eaac9338.png" alt="首页" width="90%">
+</p>
+<p align="center"><b>🏠 首页</b> — 轮播 Banner、分类筛选、小说网格推荐与多维度排序</p>
 
-> 💡 将实际截图放入 `docs/images/` 目录，命名参照 `docs/images/README.md`
+<br>
+
+<p align="center">
+  <img src="docs/images/image.bce0b14f31.png" alt="个人中心" width="90%">
+</p>
+<p align="center"><b>👤 个人中心</b> — 资料编辑、我的作品列表与创作数据概览</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/images/image.ea4e82367f.png" alt="章节阅读" width="90%">
+</p>
+<p align="center"><b>📖 沉浸式章节阅读</b> — 清爽排版、上下章快捷导航、字数统计</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/images/image.49c0bfc820.png" alt="发布小说" width="90%">
+</p>
+<p align="center"><b>✍️ 发布小说</b> — 书名、分类、封面、标签与简介一站式创作入口</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/images/image.0af6218e08.png" alt="AI 构思输入" width="48%">
+  &nbsp;
+  <img src="docs/images/image.368be45555.png" alt="AI 构思结果" width="48%">
+</p>
+<p align="center"><b>🤖 AI 小说构思助手</b> — 选择题材 + 输入核心冲突，自动生成世界观、人物卡与故事主线</p>
+
+<br>
+
+<p align="center">
+  <img src="docs/images/image.a4b08fdb35.png" alt="AI 续写生成" width="90%">
+</p>
+<p align="center"><b>✨ AI 正文续写 / 多章生成</b> — 基于构思上下文一键生成 3 章连贯正文，并支持一键发布</p>
 
 ---
 
