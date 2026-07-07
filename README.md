@@ -185,15 +185,28 @@ sql/start-nacos.bat
 
 ### 4️⃣ 配置 AI API Key
 
-> ⚠️ **重要**：使用 AI 功能前必须配置通义千问 API Key
+> ⚠️ **重要**：使用 AI 功能前必须配置通义千问 API Key（**切勿将密钥硬编码提交到 Git**）
 
-编辑 `backend/ai-service/src/main/resources/application.yml`：
+```bash
+# 1. 复制环境变量模板
+cp .env.example .env
 
-```yaml
-ai:
-  dashscope:
-    api-key: sk-your-api-key-here    # 替换为你的 DashScope API Key
-    model: qwen-flash                # 或 qwen-plus / qwen-max
+# 2. 编辑 .env，填入你的真实 Key
+# DASHSCOPE_API_KEY=sk-your-api-key-here
+```
+
+`.env` 已被 `.gitignore` 忽略，不会泄露到 Git。
+
+**IDEA 用户**：安装 `EnvFile` 插件，在 ai-service 启动配置 → EnvFile → 勾选 `.env` 文件。
+
+**命令行启动方式**：
+
+```bash
+# Windows PowerShell
+$env:DASHSCOPE_API_KEY="sk-your-real-key"; mvn -pl ai-service spring-boot:run
+
+# Linux / macOS
+export DASHSCOPE_API_KEY=sk-your-real-key && mvn -pl ai-service spring-boot:run
 ```
 
 > 前往 [阿里云 DashScope 控制台](https://dashscope.console.aliyun.com/) 获取 API Key
@@ -237,42 +250,42 @@ npm run serve
 
 ### 用户模块 (`/api/user`)
 
-| 方法 | 路径 | 说明 | 鉴权 |
-|------|------|------|:----:|
-| POST | `/api/user/login` | 用户登录，返回 JWT Token | ✗ |
-| POST | `/api/user/register` | 用户注册 | ✗ |
-| GET | `/api/user/profile` | 获取当前用户信息 | ✓ |
-| PUT | `/api/user/profile` | 更新个人资料 | ✓ |
+| 方法 | 路径 | 说明 | 鉴权 | 理由 |
+|------|------|------|:----:|------|
+| POST | `/api/user/login` | 用户登录 | ✗ | 获取 Token 的唯一入口 |
+| POST | `/api/user/register` | 用户注册 | ✗ | 新用户无凭证，无法鉴权 |
+| GET | `/api/user/profile` | 个人信息 | ✓ | 隐私数据，需 Token 确定身份 |
+| PUT | `/api/user/profile` | 更新资料 | ✓ | 写操作，防止越权修改他人资料 |
 
 ### 小说模块 (`/api/novel`)
 
-| 方法 | 路径 | 说明 | 鉴权 |
-|------|------|------|:----:|
-| GET | `/api/novel/list` | 小说列表（分页+筛选+排序） | ✗ |
-| GET | `/api/novel/categories` | 分类列表 | ✗ |
-| GET | `/api/novel/detail/{id}` | 小说详情（含点击量+1） | ✗ |
-| POST | `/api/novel/publish` | 发布新小说 | ✓ |
-| GET | `/api/novel/my` | 我的小说列表 | ✓ |
-| DELETE | `/api/novel/{id}` | 删除小说 | ✓ |
+| 方法 | 路径 | 说明 | 鉴权 | 理由 |
+|------|------|------|:----:|------|
+| GET | `/api/novel/list` | 小说列表 | ✗ | 公开内容发现，无需登录 |
+| GET | `/api/novel/categories` | 分类列表 | ✗ | 静态数据，无安全风险 |
+| GET | `/api/novel/detail/{id}` | 小说详情 | ✗ | 公开读操作，类资讯浏览 |
+| POST | `/api/novel/publish` | 发布小说 | ✓ | 创作写操作，绑定作者身份 |
+| GET | `/api/novel/my` | 我的小说 | ✓ | 个人数据，需 Token 确定归属 |
+| DELETE | `/api/novel/{id}` | 删除小说 | ✓ | 危险操作，只能操作自己的作品 |
 
 ### 章节模块 (`/api/chapter`)
 
-| 方法 | 路径 | 说明 | 鉴权 |
-|------|------|------|:----:|
-| GET | `/api/chapter/list/{novelId}` | 章节列表 | ✗ |
-| GET | `/api/chapter/detail/{id}` | 章节内容 | ✗ |
-| POST | `/api/chapter/add` | 新增章节 | ✓ |
-| PUT | `/api/chapter/update` | 更新章节 | ✓ |
-| DELETE | `/api/chapter/delete/{id}` | 删除章节 | ✓ |
+| 方法 | 路径 | 说明 | 鉴权 | 理由 |
+|------|------|------|:----:|------|
+| GET | `/api/chapter/list/{id}` | 章节列表 | ✗ | 公开阅读目录 |
+| GET | `/api/chapter/detail/{id}` | 章节内容 | ✗ | 公开阅读正文 |
+| POST | `/api/chapter/add` | 新增章节 | ✓ | 创作写操作，绑定作者身份 |
+| PUT | `/api/chapter/update` | 更新章节 | ✓ | 仅作者可编辑自己的章节 |
+| DELETE | `/api/chapter/delete/{id}` | 删除章节 | ✓ | 仅作者可删除自己的章节 |
 
 ### AI 模块 (`/api/ai`) 🔥
 
-| 方法 | 路径 | 说明 | 鉴权 |
-|------|------|------|:----:|
-| POST | `/api/ai/brainstorm` | AI 构思（题材+冲突 → 世界观+人物卡+故事线） | ✗ |
-| POST | `/api/ai/continue` | AI 续写（前文 → 续写段落） | ✗ |
-| POST | `/api/ai/generate-chapter` | 构思转单章（Markdown → 纯文本小说） | ✗ |
-| POST | `/api/ai/generate-chapters` | 构思转多章（含历史上下文，3章连贯输出） | ✗ |
+| 方法 | 路径 | 说明 | 鉴权 | 理由 |
+|------|------|------|:----:|------|
+| POST | `/api/ai/brainstorm` | AI 构思 | ✓ | 计费接口，消耗 API 额度 |
+| POST | `/api/ai/continue` | AI 续写 | ✓ | 计费接口 + 内容越权风险 |
+| POST | `/api/ai/generate-chapter` | 构思转单章 | ✓ | 计费接口 + 联动发布写链路 |
+| POST | `/api/ai/generate-chapters` | 构思转多章 | ✓ | 单次消耗最大，需用户身份限流 |
 
 <details>
 <summary><b>📋 响应格式</b></summary>
@@ -323,7 +336,7 @@ AI 多章节生成返回示例：
 
 ### 鉴权说明
 
-除登录/注册外，需鉴权的接口在请求头中携带 Token：
+登录、注册等公开接口无需鉴权；AI 模块因涉及计费均需鉴权；其他写操作需鉴权。需鉴权的接口在请求头中携带 Token：
 
 ```
 Authorization: Bearer <jwt_token>

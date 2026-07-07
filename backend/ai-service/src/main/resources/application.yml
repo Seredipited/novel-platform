@@ -10,7 +10,8 @@ spring:
         server-addr: 127.0.0.1:18848
 
 # 通义千问 API 配置（去阿里云百炼平台获取: https://bailian.console.aliyun.com/）
+# ⚠️ 密钥通过环境变量 DASHSCOPE_API_KEY 传入，切勿在此硬编码
 ai:
   dashscope:
-    api-key: sk-ws-H.RPDHPIH.Cis6.MEUCIQDfwmGxcKy986LClmzhH6-kQQBbt7Mpn8woEaws0IyEOQIgd_omD1SF_FMCH2Tv2G5L8q5_VMBdUDpa9iq1JXYdZIg
+    api-key: ${DASHSCOPE_API_KEY:}
     model: qwen-flash
