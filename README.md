@@ -647,7 +647,7 @@ node test-apis.js
 
 ## 📄 License
 
-MIT © 2025 Novel Platform
+MIT © 2026 Novel Platform
 
 ---
 
